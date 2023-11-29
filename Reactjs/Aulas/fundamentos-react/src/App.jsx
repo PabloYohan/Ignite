@@ -9,7 +9,7 @@ export function App() {
     <div>
       <Header/>
       <div className={styles.wrapper}>
-        <Sidebar />
+        <Sidebar/>
         <main>
           <Post author = "Pablo Yohan" content = "Meu primeiro componente"/>
           <Post author = "Diego Fernandes" content = "Um post qualquer" />
