@@ -24,14 +24,28 @@ export function Post({author, publishedAt, content}){
 
   function handleCreateNewComment() {
     event.preventDefault();
-    setComments([...comments, {id: comments.length + 1 ,text: newTextArea, creation: Date.now()}]);
+    setComments([...comments, {text: newTextArea, creation: Date.now()}]);
     setNewTextArea('');
   }
 
+  function handleNewCommentInvalid() {
+    event.target.setCustomValidity('Esse Campo é Obrigatório')
+  }
+
   function handleNewTextArea(){
+    event.target.setCustomValidity('')
     setNewTextArea(event.target.value);
   }
 
+  function deleteComment(commentToDelete){
+    const commentsWithoutDeleteOne = comments.filter(comments => {
+      return comments.text !== commentToDelete
+    })
+
+    setComments(commentsWithoutDeleteOne)
+  }
+
+  const isNewCommentEmpty = newTextArea.length === 0;
   return (
     <article className = {styles.post}>
       <header>
@@ -66,15 +80,24 @@ export function Post({author, publishedAt, content}){
         value = {newTextArea}
         placeholder='Deixe um comentário'
         onChange={handleNewTextArea}
+        onInvalid={handleNewCommentInvalid}
+        required
         />
         <footer>
-          <button type='submit'>Comentar</button>
+          <button type='submit' disabled ={isNewCommentEmpty}>
+            Comentar
+          </button>
         </footer>
       </form>
 
       <div className={styles.commentList}>{
         comments.map(comment => {
-          return <Comment key = {comment.id} content = {comment.text} dateCreation={comment.creation}/>
+          return (<Comment
+            key = {comment.text}
+            content = {comment.text}
+            dateCreation={comment.creation}
+            onDeleteComment = {deleteComment}
+            />)
         })
       }
       </div>
