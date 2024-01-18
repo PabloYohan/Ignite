@@ -7,11 +7,18 @@ import {
   AllTasks,
 } from './style'
 import { EmptyTasks } from '../EmptyTasks/index'
+import { Task, TaskProps } from '../Task/index'
 
 export function Tasks() {
-  const [tasks, setTasks] = useState(0)
+  const [tasks, setTasks] = useState<TaskProps[]>([
+    {
+      id: String(new Date().getTime),
+      content:
+        'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
+    },
+  ])
 
-  const isEmpty = tasks === 0
+  const isEmpty = tasks.length === 0
   return (
     <TasksContainer>
       <TasksCount>
@@ -24,7 +31,15 @@ export function Tasks() {
           <span>0</span>
         </CompletedTasks>
       </TasksCount>
-      <AllTasks>{isEmpty ? <EmptyTasks /> : <h1>Tasks</h1>}</AllTasks>
+      <AllTasks>
+        {isEmpty ? (
+          <EmptyTasks />
+        ) : (
+          tasks.map((task) => (
+            <Task key={task.id} id={task.id} content={task.content} />
+          ))
+        )}
+      </AllTasks>
     </TasksContainer>
   )
 }
