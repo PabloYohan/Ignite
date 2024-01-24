@@ -21,7 +21,7 @@ export const CreatedTasks = styled.div`
     font-size: 0.75rem;
     font-weight: bold;
     color: ${(props) => props.theme['gray-200']};
-    padding: 2px 8px;
+    padding: 0.125rem 0.5rem;
     border-radius: 999px;
     background-color: ${(props) => props.theme['gray-400']};
   }

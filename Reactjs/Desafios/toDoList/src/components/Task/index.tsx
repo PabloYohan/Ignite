@@ -5,27 +5,41 @@ import { useState } from 'react'
 export interface TaskProps {
   id: string
   content: string | null
+  countTaskCompleted: (value: number) => void
+  deleteTask: (id: string) => void
 }
 
-export function Task({ id, content }: TaskProps) {
+export function Task({
+  id,
+  content,
+  countTaskCompleted,
+  deleteTask,
+}: TaskProps) {
   const [checked, setChecked] = useState(false)
 
   function handleCheckedSwitch() {
     setChecked((state) => !state)
+    if (checked) {
+      countTaskCompleted(-1)
+    } else {
+      countTaskCompleted(1)
+    }
   }
+  function handleDeleteTask() {
+    deleteTask(id)
+  }
+
   return (
     <TaskContainer>
       <InputContent>
         <input
-          onChange={handleCheckedSwitch}
-          type="checkbox"
+          onClick={handleCheckedSwitch}
           id={id}
-          checked={checked}
+          type="checkbox"
+          defaultChecked={checked}
         />
-        <label onClick={handleCheckedSwitch} htmlFor={id}>
-          {content}
-        </label>
-        <TrashSimple size={24} />
+        <label htmlFor={id}>{content}</label>
+        <TrashSimple size={24} onClick={handleDeleteTask} />
       </InputContent>
     </TaskContainer>
   )
