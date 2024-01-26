@@ -27,6 +27,7 @@ export function Task({
   }
   function handleDeleteTask() {
     deleteTask(id)
+    countTaskCompleted(-1)
   }
 
   return (
