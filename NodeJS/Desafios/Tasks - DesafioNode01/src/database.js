@@ -9,6 +9,13 @@ export class DataBase {
   constructor(){
     fs.readFile(dataBasePath, 'utf-8')
     .then((data) => this.#database = JSON.parse(data))
+    .catch(() => {
+      this.#persist()
+  })
+  }
+
+  #persist(){
+    fs.writeFile(dataBasePath, JSON.stringify(this.#database))
   }
 
   select(table){
@@ -23,6 +30,15 @@ export class DataBase {
       this.#database[table] = [data]
     }
 
+    this.#persist()
     return data
+  }
+
+  delete(table, id){
+    const index = this.#database[table].findIndex((row) => row.id === id)
+    if(index > -1){
+      this.#database[table].splice(index, 1)
+      this.#persist()
+    }
   }
 }
