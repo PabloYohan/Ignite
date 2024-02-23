@@ -41,4 +41,24 @@ export class DataBase {
       this.#persist()
     }
   }
+
+  update(table, id, data){
+    const index = this.#database[table].findIndex((row) => row.id === id)
+
+    if(index > -1){
+      console.log(this.#database[table][index]);
+      this.#database[table][index].title = data.title
+      this.#database[table][index].description = data.description
+      this.#persist()
+    }
+  }
+
+  complete(table, id){
+    const index = this.#database[table].findIndex((row) => row.id === id)
+
+    if(index > -1){
+      this.#database[table][index].completed_at = new Date().toLocaleDateString()
+      this.#persist()
+    }
+  }
 }
