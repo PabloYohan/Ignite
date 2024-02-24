@@ -1,13 +1,14 @@
 import fastify from 'fastify'
-import { knex } from './database'
 import { env } from './env'
+import { transactionRoutes } from './routes/transactions'
+import cookie from '@fastify/cookie'
 
 const app = fastify()
 
-app.get('/hello', async () => {
-  const transaction = await knex('transactions').select('*')
+app.register(cookie)
 
-  return transaction
+app.register(transactionRoutes, {
+  prefix: 'transactions',
 })
 
 app
