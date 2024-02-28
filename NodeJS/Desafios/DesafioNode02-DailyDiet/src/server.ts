@@ -1,6 +1,9 @@
 import fastify from 'fastify'
+import { UserRoutes } from './routes/users'
 
 const app = fastify()
+
+app.register(UserRoutes)
 
 app
   .listen({
