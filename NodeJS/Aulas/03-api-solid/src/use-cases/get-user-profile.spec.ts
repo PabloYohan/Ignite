@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { hash } from 'bcryptjs'
-import { InMemoryUsersRepository } from '@/repositories/In-memory/In-memory-repository'
+import { InMemoryUsersRepository } from '@/repositories/In-memory/In-memory-user-repository'
 import { GetUserProfileUseCase } from './get-user-profile'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
@@ -28,7 +28,7 @@ describe('Get User Profile Use Case', () => {
   })
 
   it('should not be able to get a user profile with not exist id', async () => {
-    expect(() =>
+    await expect(() =>
       sut.execute({
         userId: 'non-existing-id',
       }),
